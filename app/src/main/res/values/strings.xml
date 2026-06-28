@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">ConnectCamp</string>
+
+    <!-- Auth -->
+    <string name="login">Iniciar sesión</string>
+    <string name="register">Registrarse</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="full_name">Nombre completo</string>
+    <string name="phone">Teléfono</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="no_account">¿No tienes cuenta? Regístrate</string>
+    <string name="have_account">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="select_role">Selecciona tu rol</string>
+    <string name="producer">Productor</string>
+    <string name="consumer">Consumidor</string>
+    <string name="producer_desc">Vende tus productos agrícolas directamente a consumidores</string>
+    <string name="consumer_desc">Compra productos frescos directamente del productor</string>
+
+    <!-- Producer -->
+    <string name="my_products">Mis productos</string>
+    <string name="add_product">Añadir producto</string>
+    <string name="product_name">Nombre del producto</string>
+    <string name="product_category">Categoría</string>
+    <string name="product_season">Temporada</string>
+    <string name="product_price">Precio (€/kg)</string>
+    <string name="product_quantity">Cantidad disponible</string>
+    <string name="product_unit">Unidad</string>
+    <string name="payment_methods">Métodos de pago</string>
+    <string name="online_payment">Pago online</string>
+    <string name="cash">Efectivo</string>
+    <string name="delivery_available">Envío disponible</string>
+    <string name="pickup_point">Punto de recogida</string>
+    <string name="pickup_address">Dirección del punto de recogida</string>
+    <string name="my_location">Mi ubicación</string>
+    <string name="update_location">Actualizar ubicación</string>
+
+    <!-- Consumer -->
+    <string name="shopping_list">Lista de la compra</string>
+    <string name="add_to_list">Añadir a la lista</string>
+    <string name="find_producers">Buscar productores</string>
+    <string name="nearby_producers">Productores cercanos</string>
+    <string name="all_producers">Todos los productores</string>
+    <string name="view_on_map">Ver en el mapa</string>
+    <string name="contact_producer">Contactar productor</string>
+
+    <!-- Chat -->
+    <string name="messages">Mensajes</string>
+    <string name="send_message">Enviar mensaje</string>
+    <string name="type_message">Escribe un mensaje…</string>
+    <string name="no_messages">No hay mensajes aún</string>
+
+    <!-- Common -->
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="search">Buscar</string>
+    <string name="loading">Cargando…</string>
+    <string name="error">Error</string>
+    <string name="success">Éxito</string>
+    <string name="back">Atrás</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="profile">Perfil</string>
+    <string name="home">Inicio</string>
+    <string name="map">Mapa</string>
+    <string name="available">Disponible</string>
+    <string name="not_available">No disponible</string>
+    <string name="spring">Primavera</string>
+    <string name="summer">Verano</string>
+    <string name="autumn">Otoño</string>
+    <string name="winter">Invierno</string>
+    <string name="all_year">Todo el año</string>
+
+    <!-- Errors -->
+    <string name="error_empty_email">El correo electrónico no puede estar vacío</string>
+    <string name="error_invalid_email">Correo electrónico inválido</string>
+    <string name="error_empty_password">La contraseña no puede estar vacía</string>
+    <string name="error_short_password">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="error_passwords_not_match">Las contraseñas no coinciden</string>
+    <string name="error_empty_name">El nombre no puede estar vacío</string>
+    <string name="error_login_failed">Error al iniciar sesión. Verifica tus credenciales</string>
+    <string name="error_register_failed">Error al registrarse. Inténtalo de nuevo</string>
+    <string name="error_network">Error de red. Comprueba tu conexión</string>
+    <string name="error_location_permission">Se necesita permiso de ubicación para posicionarte en el mapa</string>
+
+    <!-- Success messages -->
+    <string name="success_register">Registro exitoso. Bienvenido/a a ConnectCamp</string>
+    <string name="success_login">Inicio de sesión exitoso</string>
+    <string name="success_product_added">Producto añadido correctamente</string>
+    <string name="success_location_updated">Ubicación actualizada correctamente</string>
+    <string name="success_profile_updated">Perfil actualizado correctamente</string>
+    <string name="password_reset_sent">Se ha enviado un correo para restablecer la contraseña</string>
+</resources>

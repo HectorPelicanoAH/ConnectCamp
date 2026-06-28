@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Producers collection
+    match /producers/{producerId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == producerId;
+    }
+
+    // Products collection
+    match /products/{productId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.producerId == request.auth.uid;
+      allow update, delete: if request.auth != null
+        && resource.data.producerId == request.auth.uid;
+    }
+
+    // Shopping list
+    match /shoppingList/{itemId} {
+      allow read, write: if request.auth != null
+        && (resource == null || resource.data.consumerId == request.auth.uid)
+        && (request.resource == null || request.resource.data.consumerId == request.auth.uid);
+    }
+
+    // Chats collection
+    match /chats/{chatId} {
+      allow read, write: if request.auth != null
+        && (resource == null
+            || resource.data.producerId == request.auth.uid
+            || resource.data.consumerId == request.auth.uid);
+    }
+
+    // Messages collection
+    match /messages/{messageId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.senderId == request.auth.uid;
+      allow update: if request.auth != null;
+    }
+  }
+}
