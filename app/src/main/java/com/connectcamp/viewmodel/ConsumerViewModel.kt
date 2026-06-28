@@ -2,6 +2,7 @@ package com.connectcamp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.connectcamp.data.model.ProducerWithLocation
 import com.connectcamp.data.model.ShoppingListItem
 import com.connectcamp.data.model.User
 import com.connectcamp.data.repository.ConsumerRepository
@@ -25,6 +26,9 @@ class ConsumerViewModel @Inject constructor(
     private val _allProducers = MutableStateFlow<List<User>>(emptyList())
     val allProducers: StateFlow<List<User>> = _allProducers.asStateFlow()
 
+    private val _producersWithLocation = MutableStateFlow<List<ProducerWithLocation>>(emptyList())
+    val producersWithLocation: StateFlow<List<ProducerWithLocation>> = _producersWithLocation.asStateFlow()
+
     private val _searchResults = MutableStateFlow<List<User>>(emptyList())
     val searchResults: StateFlow<List<User>> = _searchResults.asStateFlow()
 
@@ -37,6 +41,7 @@ class ConsumerViewModel @Inject constructor(
     init {
         observeShoppingList()
         observeAllProducers()
+        observeProducersWithLocation()
     }
 
     private fun observeShoppingList() {
@@ -51,6 +56,14 @@ class ConsumerViewModel @Inject constructor(
         viewModelScope.launch {
             producerRepository.getAllProducersFlow().collect {
                 _allProducers.value = it
+            }
+        }
+    }
+
+    private fun observeProducersWithLocation() {
+        viewModelScope.launch {
+            producerRepository.getAllProducersWithLocationFlow().collect {
+                _producersWithLocation.value = it
             }
         }
     }

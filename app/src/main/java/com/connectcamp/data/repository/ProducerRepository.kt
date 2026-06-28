@@ -2,7 +2,9 @@ package com.connectcamp.data.repository
 
 import com.connectcamp.data.model.Product
 import com.connectcamp.data.model.ProducerProfile
+import com.connectcamp.data.model.ProducerWithLocation
 import com.connectcamp.data.model.User
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
@@ -179,5 +181,28 @@ class ProducerRepository @Inject constructor(
         } catch (e: Exception) {
             emptyList()
         }
+    }
+
+    fun getAllProducersWithLocationFlow(): Flow<List<ProducerWithLocation>> = callbackFlow {
+        val listener = producersCollection
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    trySend(emptyList())
+                    return@addSnapshotListener
+                }
+                val profiles = snapshot?.documents?.mapNotNull { it.toObject(ProducerProfile::class.java) }
+                    ?: emptyList()
+                // Only include producers who have registered a location
+                val result = profiles.mapNotNull { profile ->
+                    val geoPoint = profile.location ?: return@mapNotNull null
+                    val location = LatLng(geoPoint.latitude, geoPoint.longitude)
+                    ProducerWithLocation(
+                        user = User(uid = profile.uid),
+                        location = location
+                    )
+                }
+                trySend(result)
+            }
+        awaitClose { listener.remove() }
     }
 }

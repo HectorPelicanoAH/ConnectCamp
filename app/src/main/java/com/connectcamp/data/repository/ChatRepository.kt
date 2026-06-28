@@ -51,12 +51,6 @@ class ChatRepository @Inject constructor(
             close()
             return@callbackFlow
         }
-        val listenerProducer = chatsCollection.whereEqualTo("producerId", uid)
-            .addSnapshotListener { snapshot, _ ->
-                // handled by combined listener below
-            }
-        listenerProducer.remove()
-
         val listener = chatsCollection
             .whereIn("producerId", listOf(uid))
             .addSnapshotListener { snapshot, error ->

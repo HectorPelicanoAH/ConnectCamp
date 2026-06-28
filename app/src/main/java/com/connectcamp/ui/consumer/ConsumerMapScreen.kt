@@ -28,7 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.connectcamp.data.model.User
+import com.connectcamp.data.model.ProducerWithLocation
 import com.connectcamp.data.model.UserRole
 import com.connectcamp.viewmodel.AuthViewModel
 import com.connectcamp.viewmodel.ChatViewModel
@@ -57,10 +57,13 @@ fun ConsumerMapScreen(
     onBack: () -> Unit
 ) {
     val currentUser by authViewModel.currentUser.collectAsState()
+    val producersWithLocation by consumerViewModel.producersWithLocation.collectAsState()
     val allProducers by consumerViewModel.allProducers.collectAsState()
+    // Map uid -> User so we can look up fullName/phone for map markers
+    val producerUserMap = remember(allProducers) { allProducers.associateBy { it.uid } }
 
     val locationPermission = rememberPermissionState(Manifest.permission.ACCESS_FINE_LOCATION)
-    var selectedProducer by remember { mutableStateOf<User?>(null) }
+    var selectedProducer by remember { mutableStateOf<ProducerWithLocation?>(null) }
     val scope = rememberCoroutineScope()
 
     val cameraPositionState = rememberCameraPositionState {
@@ -91,25 +94,23 @@ fun ConsumerMapScreen(
                     isMyLocationEnabled = locationPermission.status.isGranted
                 )
             ) {
-                // In a real implementation we would fetch ProducerProfile for each producer
-                // and display markers at their registered locations.
-                // For now we show a placeholder marker for producers without location data.
-                allProducers.forEach { producer ->
-                    // Placeholder position — real location fetched from ProducerProfile
-                    val position = LatLng(40.4168 + (producer.uid.hashCode() % 100) * 0.01, -3.7038)
+                producersWithLocation.forEach { producerWithLocation ->
+                    val user = producerUserMap[producerWithLocation.user.uid]
                     Marker(
-                        state = MarkerState(position = position),
-                        title = producer.fullName,
+                        state = MarkerState(position = producerWithLocation.location!!),
+                        title = user?.fullName ?: producerWithLocation.user.uid,
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN),
                         onClick = {
-                            selectedProducer = producer
+                            selectedProducer = producerWithLocation.copy(
+                                user = user ?: producerWithLocation.user
+                            )
                             false
                         }
                     )
                 }
             }
 
-            selectedProducer?.let { producer ->
+            selectedProducer?.let { entry ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -118,16 +119,16 @@ fun ConsumerMapScreen(
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text(producer.fullName, style = MaterialTheme.typography.titleMedium)
-                        if (producer.phone.isNotBlank()) {
+                        Text(entry.user.fullName, style = MaterialTheme.typography.titleMedium)
+                        if (entry.user.phone.isNotBlank()) {
                             Text(
-                                producer.phone,
+                                entry.user.phone,
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                         TextButton(
-                            onClick = { onNavigateToProducerDetail(producer.uid) }
+                            onClick = { onNavigateToProducerDetail(entry.user.uid) }
                         ) {
                             Text("Ver perfil")
                         }
@@ -136,12 +137,12 @@ fun ConsumerMapScreen(
                                 onClick = {
                                     scope.launch {
                                         val chatId = chatViewModel.getOrCreateChat(
-                                            producerId = producer.uid,
-                                            producerName = producer.fullName,
+                                            producerId = entry.user.uid,
+                                            producerName = entry.user.fullName,
                                             consumerId = currentUser!!.uid,
                                             consumerName = currentUser!!.fullName
                                         )
-                                        onNavigateToChat(chatId, producer.fullName)
+                                        onNavigateToChat(chatId, entry.user.fullName)
                                     }
                                 }
                             ) {
@@ -154,3 +155,4 @@ fun ConsumerMapScreen(
         }
     }
 }
+
