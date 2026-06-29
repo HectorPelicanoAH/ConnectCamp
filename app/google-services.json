@@ -1,14 +1,13 @@
 {
-  "_comment": "REPLACE THIS FILE with the real google-services.json downloaded from your Firebase project console. See README.md for instructions.",
   "project_info": {
-    "project_number": "YOUR_PROJECT_NUMBER",
-    "project_id": "YOUR_PROJECT_ID",
-    "storage_bucket": "YOUR_PROJECT_ID.appspot.com"
+    "project_number": "717011908493",
+    "project_id": "connectcamp-cf3de",
+    "storage_bucket": "connectcamp-cf3de.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:YOUR_PROJECT_NUMBER:android:YOUR_APP_ID",
+        "mobilesdk_app_id": "1:717011908493:android:6202dd8a40e0f8eec7efc4",
         "android_client_info": {
           "package_name": "com.connectcamp"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "YOUR_ANDROID_API_KEY"
+          "current_key": "AIzaSyBgK9ztfc8ny5CUmG-5fku1XUsjyKdnn2g"
         }
       ],
       "services": {
